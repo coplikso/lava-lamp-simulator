@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lava Glass</title>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SVG warp filter — makes blob edges ripple like real liquid -->
+    <svg id="filters" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="liquid-warp" x="-25%" y="-25%" width="150%" height="150%">
+                <feTurbulence
+                    id="turbulence"
+                    type="fractalNoise"
+                    baseFrequency="0.008 0.006"
+                    numOctaves="4"
+                    seed="2"
+                    result="noise"
+                />
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="noise"
+                    scale="36"
+                    xChannelSelector="R"
+                    yChannelSelector="G"
+                />
+            </filter>
+        </defs>
+    </svg>
+
+    <!--
+        METABALL WRAP: CSS blur+contrast is the metaball trick.
+        Blobs drawn soft → blur feathers them together →
+        contrast snaps the merged area into a clean unified shape.
+        This makes blobs organically merge and split with zero math.
+    -->
+    <div class="metaball-wrap">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- Subtle glass sheen on top — passes all pointer events through -->
+    <div id="glass-overlay"></div>
+
+    <!-- Fancy serif clock — top right -->
+    <div id="clock">
+        <div id="clock-time">00:00:00</div>
+        <div id="clock-date">Monday, 1 January 2000</div>
+    </div>
+
+    <!-- Mode buttons pill — bottom center -->
+    <div id="ui">
+        <div class="ui-pill">
+            <button class="mode-btn active" id="btn-fire"     onclick="setMode('fire')">
+                <span class="dot fire-dot"></span>Fire
+            </button>
+            <button class="mode-btn" id="btn-pastel"   onclick="setMode('pastel')">
+                <span class="dot pastel-dot"></span>Pastel
+            </button>
+            <button class="mode-btn" id="btn-electric" onclick="setMode('electric')">
+                <span class="dot electric-dot"></span>Electric
+            </button>
+            <button class="mode-btn" id="btn-calm"     onclick="setMode('calm')">
+                <span class="dot calm-dot"></span>Ocean
+            </button>
+            <button class="mode-btn" id="btn-aurora"   onclick="setMode('aurora')">
+                <span class="dot aurora-dot"></span>Aurora
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
